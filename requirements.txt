@@ -1,0 +1,4 @@
+quart==0.11.5
+aiostream==0.4.1
+motor==2.1.0
+websockets==8.1
