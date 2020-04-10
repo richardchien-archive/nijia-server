@@ -48,7 +48,8 @@ async def insert_device(
         uid: str,
         name: str,
         model: str,
-        switchable: bool, *,
+        switchable: bool,
+        keep_history_state: bool, *,
         exist_ok: bool = False) -> Optional[Dict[str, Any]]:
     """
     插入设备对象.
@@ -58,6 +59,7 @@ async def insert_device(
         name: 设备名称
         model: 设备型号
         switchable: 是否可开关
+        keep_history_state: 是否保留历史状态
         exist_ok: 是否允许该设备已存在
 
     Returns:
@@ -73,6 +75,7 @@ async def insert_device(
         'name': name,
         'model': model,
         'switchable': switchable,
+        'keep_history_state': keep_history_state,
         'state': {}
     })
     return await find_device(uid)
@@ -109,11 +112,12 @@ async def update_device_state(
             {'$set': {f'state.{k}': v for k, v in state.items()}}
         )
     dev = await find_device(uid)
-    await history_state_collection.insert_one({
-        'device_uid': uid,
-        'time': time(),
-        'state': dev['state']
-    })
+    if dev['keep_history_state']:
+        await history_state_collection.insert_one({
+            'device_uid': uid,
+            'time': time(),
+            'state': dev['state']
+        })
     return dev
 
 

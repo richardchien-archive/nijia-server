@@ -13,24 +13,28 @@ devices = [
         'name': '吸顶灯',
         'model': '10000',
         'switchable': True,
+        'keep_history_state': False,
     },
     {
         'uid': '/box-1/led-2',
         'name': '床头灯',
         'model': '10004',
         'switchable': True,
+        'keep_history_state': False,
     },
     {
         'uid': '/box-1/temp-1',
         'name': '温湿度计',
         'model': '10001',
         'switchable': False,
+        'keep_history_state': True,
     },
     {
         'uid': '/box-1/smoke-alarm-1',
         'name': '烟雾报警器',
         'model': '10003',
         'switchable': False,
+        'keep_history_state': False,
     },
 ]
 

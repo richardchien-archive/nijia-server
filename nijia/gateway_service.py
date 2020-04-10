@@ -9,8 +9,16 @@ service = rpc.Service()
 async def register_device(uid: str,
                           name: str,
                           model: str,
-                          switchable: bool):
-    dev = await db.insert_device(uid, name, model, switchable, exist_ok=True)
+                          switchable: bool,
+                          keep_history_state: bool):
+    dev = await db.insert_device(
+        uid,
+        name,
+        model,
+        switchable,
+        keep_history_state,
+        exist_ok=True
+    )
     if not dev:
         return rpc.ErrorResponse(
             rpc.ErrorCode.DATABASE_FAILED,
