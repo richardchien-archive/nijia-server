@@ -54,4 +54,11 @@ async def get_history_state_list(device_uid: str, count: int = 20):
 @service.method
 @require_auth
 async def update_device_state(uid: str, state: Dict[str, Any]):
-    return
+    # TODO: 暂时直接更新数据库，以后应改为请求 gateway 控制设备
+    dev = await db.update_device_state(uid, state, replace=False)
+    if not dev:
+        return rpc.ErrorResponse(
+            rpc.ErrorCode.DATABASE_FAILED,
+            '更新数据库字段失败'
+        )
+    return dev
